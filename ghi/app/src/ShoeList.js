@@ -12,7 +12,16 @@ class ShoeList extends React.Component {
     }
 
     async delete(id) {
-        await fetch()
+        await fetch(`http://localhost:8080/api/shoes/${id}` , {
+            method: 'DELETE',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        }).then(() => {
+            let updatedshoes = [...this.state.shoes].filter(i => i.id !== id);
+            this.setState({shoes : updatedshoes});
+        });
     }
 
     async loadShoes() {
@@ -37,7 +46,7 @@ class ShoeList extends React.Component {
                     <th>Manufacturer</th>
                     <th>Shoe Name</th>
                     <th>Bin</th>
-                    <th>Delete</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>          
@@ -45,7 +54,7 @@ class ShoeList extends React.Component {
                     return (
                       <tr key={shoe.id}>
                         <td>{ shoe.manufacturer }</td>
-                        <td>{ shoe.model_name }</td>
+                        <td><a link = "">{ shoe.model_name }</a></td>
                         <td>{ shoe.bin }</td>
                         <button onClick={() => this.delete(shoe.id)}> Delete </button>
                       </tr>
