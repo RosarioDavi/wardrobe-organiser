@@ -3,7 +3,65 @@ import React from 'react';
 class CreateShoeForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {bins: []};
+    this.state = {
+      manufacturer: '',
+      model_name: '',
+      color: '',
+      bins: []
+    };
+    this.handleManufacturerChange = this.handleManufacturerChange.bind(this);
+    this.handleModelChange = this.handleModelChange.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
+    this.handleBinChange = this.handleBinChange.bind(this);
+    this.handleSubmitChange = this.handleSubmitChange.bind(this);
+  }
+
+  async handleSubmitChange (event) {
+    event.preventDefault();
+    const data = {...this.state};
+    delete data.bins;
+
+    const locationUrl = 'http://localhost:8080/api/shoes/';
+    const fetchConfig = {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    };
+    const response = await fetch(locationUrl, fetchConfig);
+    if (response.ok) {
+    const newLocation = await response.json();
+    
+    const cleared = {
+        manufacturer: '',
+        model_name: '',
+        color: '',
+        bin: '',
+    };
+    this.setState(cleared);
+    }
+
+  }
+
+  handleManufacturerChange(event) {
+    const value = event.target.value;
+    this.setState({manufacturer: value})
+  }
+
+  handleModelChange(event) {
+    const value = event.target.value;
+    this.setState({model_name: value})
+  }
+
+  handleColorChange(event) {
+    const value = event.target.value;
+    this.setState({color: value})
+  }
+
+  handleBinChange(event) {
+    const value = event.target.value;
+    this.setState({bin:value})
   }
 
 
@@ -24,7 +82,7 @@ class CreateShoeForm extends React.Component {
             <div className="offset-3 col-6">
               <div className="shadow p-4 mt-4">
                 <h1>Add a Shoe</h1>
-                <form onSubmit={this.handleSubmit} id="add-shoe-form">
+                <form onSubmit={this.handleSubmitChange} id="add-shoe-form">
                   <div className="form-floating mb-3">
                     <input onChange={this.handleManufacturerChange} value={this.state.manufacturer} placeholder="Manufacturer" required type="text" name="manufacturer" id="manufacturer" className="form-control" />
                     <label htmlFor="manufacturer">Manufacturer</label>
