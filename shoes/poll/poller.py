@@ -9,7 +9,7 @@ sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shoes_project.settings")
 django.setup()
 
-from shoes_rest.models import BinVO, Shoe
+from shoes_rest.models import BinVO
 
 
 
@@ -22,11 +22,10 @@ def get_bins():
     print(content)
     for bin in content["bins"]:
         BinVO.objects.update_or_create(
-            import_href=bin["import_href"],
+            import_href=bin["href"],
             defaults={
                 "closet_name": bin["closet_name"],
-                "bin_number": bin["bin_number"],
-            },
+            }
         )
 
 
