@@ -12,7 +12,7 @@ class ShoeList extends React.Component {
     }
 
     async delete(id) {
-        this
+        await fetch()
     }
 
     async loadShoes() {
