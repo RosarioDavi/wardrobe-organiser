@@ -2,8 +2,6 @@ from django.db import models
 
 class LocationVO(models.Model):
     closet_name = models.CharField(max_length=100)
-    section_number = models.PositiveSmallIntegerField(null = True)
-    shelf_number = models.PositiveSmallIntegerField(null = True)
     location_id = models.PositiveSmallIntegerField(null=True, unique = True)
 
 
